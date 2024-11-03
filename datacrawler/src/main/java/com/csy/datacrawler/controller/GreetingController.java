@@ -35,15 +35,15 @@ public class GreetingController {
         return greeting;
     }
 
-    // @GetMapping("/{name}")
-    // @Operation(summary = "Get a personalized greeting", description = "Returns a greeting based on the greeting type")
-    // public ResponseEntity<String> getGreeting(
-    //         @PathVariable String name,
-    //         @RequestParam(value = "type", defaultValue = "regularGreetingStrategy") String greetingType) {
+    @GetMapping("/{name}")
+    @Operation(summary = "Get a personalized greeting", description = "Returns a greeting based on the greeting type")
+    public ResponseEntity<String> getGreeting(
+            @PathVariable String name,
+            @RequestParam(value = "type", defaultValue = "regularGreetingStrategy") String greetingType) {
         
-    //     String greetingMessage = greetingService.getGreeting(name, greetingType);
-    //     return ResponseEntity.ok(greetingMessage);
-    // }
+        String greetingMessage = greetingService.getGreeting(name, greetingType);
+        return ResponseEntity.ok(greetingMessage);
+    }
 
     // @PostMapping
     // public ResponseEntity<Greeting> createGreeting(@RequestBody Greeting greeting) {
