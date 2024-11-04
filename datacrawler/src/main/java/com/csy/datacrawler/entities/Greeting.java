@@ -1,16 +1,36 @@
 package com.csy.datacrawler.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "greetings")
 public class Greeting {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String message;
 
-    public Greeting(Long id, String message) {
-        this.id = id;
-        this.message = message;
-        
+    private String name;
+    private String type;
+    private LocalDateTime greetingTime;
+
+    public Greeting() {
+        // Default constructor for JPA
     }
 
+    public Greeting(Long id, String name, String type, LocalDateTime greetingTime) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.greetingTime = greetingTime;
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -19,11 +39,27 @@ public class Greeting {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getName() {
+        return name;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getGreetingTime() {
+        return greetingTime;
+    }
+
+    public void setGreetingTime(LocalDateTime greetingTime) {
+        this.greetingTime = greetingTime;
     }
 }

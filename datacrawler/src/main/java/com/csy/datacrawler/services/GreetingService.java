@@ -9,16 +9,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.csy.datacrawler.entities.Greeting;
+import com.csy.datacrawler.repositories.GreetingRepositories;
 
 @Service
 public class GreetingService {
     private final Map<String, GreetingStrategy> greetingStrategies;
-    private final JdbcTemplate jdbcTemplate;
+    private final GreetingRepositories greetingRepositories;
+    //private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GreetingService(Map<String, GreetingStrategy> greetingStrategies, JdbcTemplate jdbcTemplate) {
+    public GreetingService(Map<String, GreetingStrategy> greetingStrategies, GreetingRepositories greetingRepositories) {
         this.greetingStrategies = greetingStrategies;
-        this.jdbcTemplate = jdbcTemplate;
+        this.greetingRepositories = greetingRepositories;
+        //this.jdbcTemplate = jdbcTemplate;
     }
 
     public String getGreeting(String name, String greetingType) {
@@ -26,9 +29,13 @@ public class GreetingService {
         return strategy.generateGreeting(name);
     }
 
-    public List<Map<String, Object>> getAllGreetingsResult() {
-        String sql = "SELECT * FROM greetings";
-        return jdbcTemplate.queryForList(sql);
+    // public List<Map<String, Object>> getAllGreetingsResult() {
+    //     String sql = "SELECT * FROM greetings";
+    //     return jdbcTemplate.queryForList(sql);
+    // }
+
+    public List<Greeting> getAllGreetings() {
+        return greetingRepositories.findAll();
     }
  
 }

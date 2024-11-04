@@ -29,11 +29,11 @@ public class GreetingController {
 
     @GetMapping("/hello")
     @Operation(summary = "Say hello", description = "Returns a greeting message")
-    public List<Greeting> getAllGreetings() {
+    public String getGreeting() {
         //return greetingService.getAllGreetings();
-        List greeting = new ArrayList();
-        greeting.add(new Greeting(1L, "hi"));
-        return greeting;
+        //List greeting = new ArrayList();
+       // greeting.add(new Greeting(1L, "hi"));
+        return "Hi";
     }
 
     @GetMapping("/{name}")
@@ -48,8 +48,8 @@ public class GreetingController {
 
     @GetMapping("/all")
     @Operation(summary = "Retrieve all greetings", description = "Returns a list of all greetings")
-    public List<Map<String, Object>> getAllGreetingsResult() {
-        return greetingService.getAllGreetingsResult();
+    public List<Greeting> getAllGreetingsResult() {
+        return greetingService.getAllGreetings();
     }
 
 }
