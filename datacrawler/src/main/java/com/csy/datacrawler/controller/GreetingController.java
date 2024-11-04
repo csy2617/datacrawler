@@ -13,6 +13,7 @@ import com.csy.datacrawler.services.GreetingService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Tag(name = "Hello World API", description = "Sample API to demonstrate Swagger")
@@ -39,16 +40,17 @@ public class GreetingController {
     @Operation(summary = "Get a personalized greeting", description = "Returns a greeting based on the greeting type")
     public ResponseEntity<String> getGreeting(
             @PathVariable String name,
-            @RequestParam(value = "type", defaultValue = "regularGreetingStrategy") String greetingType) {
+            @RequestParam(value = "type", defaultValue = "regularGreetingStrategyy") String greetingType) {
         
         String greetingMessage = greetingService.getGreeting(name, greetingType);
         return ResponseEntity.ok(greetingMessage);
     }
 
-    // @PostMapping
-    // public ResponseEntity<Greeting> createGreeting(@RequestBody Greeting greeting) {
-    //     Greeting createdGreeting = greetingService.createGreeting(greeting.getMessage());
-    //     return new ResponseEntity<>(createdGreeting, HttpStatus.CREATED);
-    // }
+    @GetMapping("/all")
+    @Operation(summary = "Retrieve all greetings", description = "Returns a list of all greetings")
+    public List<Map<String, Object>> getAllGreetingsResult() {
+        return greetingService.getAllGreetingsResult();
+    }
+
 }
 
