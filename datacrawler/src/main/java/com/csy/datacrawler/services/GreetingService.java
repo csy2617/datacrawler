@@ -3,6 +3,7 @@ package com.csy.datacrawler.services;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,6 +37,18 @@ public class GreetingService {
 
     public List<Greeting> getAllGreetings() {
         return greetingRepositories.findAll();
+    }
+
+    public String getGreetingByName(String name) {
+        Optional<Greeting> greetingOptional = greetingRepositories.findByName(name);
+        if (greetingOptional.isPresent()) {
+            Greeting greeting = greetingOptional.get();
+            String greetingType = greeting.getType();
+            GreetingStrategy strategy = greetingStrategies.getOrDefault(greetingType, greetingStrategies.get("regularGreetingStrategyy"));
+            return strategy.generateGreeting(greeting.getName());
+        } else {
+            return "Greeting not found."; // Handle the case where no greeting is found
+        }
     }
  
 }

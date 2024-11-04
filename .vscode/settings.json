@@ -1,4 +1,6 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "appService.defaultWebAppToDeploy": "/subscriptions/8665faf1-8f4f-47eb-b6dd-1eac3fb97ec0/resourceGroups/myGreetingGroup/providers/Microsoft.Web/sites/greeting",
+    "appService.deploySubpath": "datacrawler\\target\\datacrawler-0.0.1-SNAPSHOT.war"
 }

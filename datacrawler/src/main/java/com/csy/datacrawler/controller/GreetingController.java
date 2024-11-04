@@ -52,5 +52,12 @@ public class GreetingController {
         return greetingService.getAllGreetings();
     }
 
+    @GetMapping("/message/{name}")
+    @Operation(summary = "Get personalized greeting by name", description = "Returns a greeting message based on the name provided")
+    public ResponseEntity<String> getGreetingByName(@PathVariable String name) {
+    String greetingMessage = greetingService.getGreetingByName(name);
+    return ResponseEntity.ok(greetingMessage);
+}
+
 }
 
