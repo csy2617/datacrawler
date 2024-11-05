@@ -16,17 +16,20 @@ import com.csy.datacrawler.repositories.GreetingRepositories;
 public class GreetingService {
     private final Map<String, GreetingStrategy> greetingStrategies;
     private final GreetingRepositories greetingRepositories;
+    private final AnalyticsService analyticsService;
     //private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GreetingService(Map<String, GreetingStrategy> greetingStrategies, GreetingRepositories greetingRepositories) {
+    public GreetingService(Map<String, GreetingStrategy> greetingStrategies, GreetingRepositories greetingRepositories, AnalyticsService analyticsService) {
         this.greetingStrategies = greetingStrategies;
         this.greetingRepositories = greetingRepositories;
+        this.analyticsService = analyticsService;
         //this.jdbcTemplate = jdbcTemplate;
     }
 
     public String getGreeting(String name, String greetingType) {
         GreetingStrategy strategy = greetingStrategies.getOrDefault(greetingType, greetingStrategies.get("regularGreetingStrategyy"));
+        analyticsService.publishGreetingAnalytics(name, greetingType);
         return strategy.generateGreeting(name);
     }
 
@@ -50,5 +53,7 @@ public class GreetingService {
             return "Greeting not found."; // Handle the case where no greeting is found
         }
     }
+
+    
  
 }

@@ -4,19 +4,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.csy.datacrawler.entities.Greeting;
 import com.csy.datacrawler.services.GreetingService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@Tag(name = "Hello World API", description = "Sample API to demonstrate Swagger")
+@Tag(name = "Greeting API", description = "APIs to greet users")
 @RequestMapping("/greetings")
 public class GreetingController {
 
