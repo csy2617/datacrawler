@@ -1,0 +1,53 @@
+services:
+  sql:
+    image: mcr.microsoft.com/azure-sql-edge
+    environment:
+        ACCEPT_EULA: "Y"  # Correct syntax for accepting the EULA
+        MSSQL_SA_PASSWORD: "Password@1"  # Correct syntax for setting the SA password
+    ports:
+        - "1433:1433"  # Correct syntax for port mapping
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+  
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"  # OUTSIDE listener
+      - "9093:9093"  # INSIDE listener
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE  # Specify which listener to use for inter-broker communication
+    volumes:
+      - /tmp/kafka-logs
+    depends_on:
+      - zookeeper
+
+  kafka-manager:
+    image: hlebalbau/kafka-manager:latest
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: "zookeeper:2181"
+    depends_on:
+      - zookeeper
+      - kafka
+
+  greeting-application:
+    image: greetingapp:latest  # Replace with your actual Docker image name
+    ports:
+      - "8080:8080"  # Adjust if your application uses a different port
+    environment:
+      SPRING_KAFKA_CONSUMER_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_CONFIG_LOCATION: "file:/config/application.properties"
+    volumes:
+      - ./src/resources:/config
+    depends_on:
+      - kafka
+      - sql

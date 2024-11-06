@@ -17,3 +17,24 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE  # Specify which listener to use for inter-broker communication
     depends_on:
       - zookeeper
+
+  kafka-manager:
+    image: hlebalbau/kafka-manager:latest
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: "zookeeper:2181"
+    depends_on:
+      - zookeeper
+      - kafka
+
+  greeting-application:
+    image: greetingapp:latest  # Replace with your actual Docker image name
+    ports:
+      - "8080:8080"  # Adjust if your application uses a different port
+    volumes:
+      - ./application.properties:/usr/local/tomcat/conf/application.properties
+    environment:
+      - SPRING_CONFIG_LOCATION=/usr/local/tomcat/conf/application.properties
+    depends_on:
+      - kafka

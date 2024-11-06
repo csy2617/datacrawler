@@ -15,6 +15,7 @@ public class AnalyticsService {
 
     public void publishGreetingAnalytics(String userId, String greetingType) {
         String message = String.format("User: %s, Greeting Type: %s, Timestamp: %s", userId, greetingType, System.currentTimeMillis());
+        System.out.println("publisher sent message");
         kafkaTemplate.send("greeting-analytics", message);
     }
 }
